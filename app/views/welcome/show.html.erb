@@ -1,0 +1,24 @@
+<p><%= @artist %></p>
+<p><%= @album %></p>
+<p><%= @uri %></p>
+<p>requestURI: <%=  @requestURI %></p>
+<p>requestHost: <%=  @requestHost %></p>
+<p>response:<%= @res %></p>
+<p>body: <%= @body %></p> 
+<p>releases class: <%= @releases.class %></p> 
+<!-- <p>releases : <%= @releases[0] %></p> -->
+
+
+<% if @releases.count == 0  %>
+	No match found for 	<%= @artist %> - <%= @album %>
+<% end %>
+
+
+<% @releases.each do |release| %>
+	<% if release["primary_type"] == "Album" %>
+		<% unless (release["title"].nil? or release["artist_credit"]["name_credit"]["artist"]["name"].nil?) then %>
+			<p> Album <b><%= release["title"] %></b> <br>
+			by <b> <%= release["artist_credit"]["name_credit"]["artist"]["name"] %></b> </p>
+		<% end %>
+	<% end %>
+<% end %>

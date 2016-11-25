@@ -1,0 +1,8 @@
+<h2>Search for an album</h2>
+<%= form_tag("welcome/show", controller: "welcome", method: "get") do %>
+  <%= label_tag(:artist, "Artist:") %>
+  <%= text_field_tag(:artist)  %>
+  <%= label_tag(:album, "Album:") %>
+  <%= text_field_tag(:album)  %>
+  <%= submit_tag("Search") %>
+<% end %>

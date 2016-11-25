@@ -1,0 +1,20 @@
+<h1>Moods currently registered</h1>
+ 
+<table>
+  <tr>
+    <th>Mood</th>
+  </tr>
+ 
+  <% @moods.each do |mood| %>
+    <tr>
+	  <td><%= mood.id %></td>
+      <td><%= mood.name %></td>
+	  <td><%= link_to 'Destroy', mood_path(mood),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  
+   <%= link_to 'Create More', new_mood_path %>
+  
+</table>

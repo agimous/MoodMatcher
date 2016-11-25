@@ -1,0 +1,11 @@
+<%= form_for :mood, url: {action: "create"} do |f| %>
+  <p>
+    <%= f.label :"Insert a new mood" %><br>
+    <%= f.text_field :name %>
+  </p>
+ 
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
