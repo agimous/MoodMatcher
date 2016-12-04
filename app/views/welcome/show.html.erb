@@ -1,24 +1,49 @@
-<p><%= @artist %></p>
-<p><%= @album %></p>
-<p><%= @uri %></p>
-<p>requestURI: <%=  @requestURI %></p>
-<p>requestHost: <%=  @requestHost %></p>
-<p>response:<%= @res %></p>
-<p>body: <%= @body %></p> 
-<p>releases class: <%= @releases.class %></p> 
-<!-- <p>releases : <%= @releases[0] %></p> -->
+<%= stylesheet_link_tag "myStyles.css" %>
+
+<!-- <p> request : <%= @uri =%> </p> -->
 
 
-<% if @releases.count == 0  %>
-	No match found for 	<%= @artist %> - <%= @album %>
+<%= form_tag("/welcome/show", controller: "welcome", method: "get") do %>
+  <%= label_tag(:artist, "Artist:") %>
+  <%= text_field_tag(:artist,@artist)  %>
+  <%= label_tag(:album, "Album:") %>
+  <%= text_field_tag(:album,@album)  %>
+  <%= submit_tag("Search") %>
 <% end %>
 
+	
+	
+<% if @albumsList.empty? then %>
 
-<% @releases.each do |release| %>
-	<% if release["primary_type"] == "Album" %>
-		<% unless (release["title"].nil? or release["artist_credit"]["name_credit"]["artist"]["name"].nil?) then %>
-			<p> Album <b><%= release["title"] %></b> <br>
-			by <b> <%= release["artist_credit"]["name_credit"]["artist"]["name"] %></b> </p>
-		<% end %>
+	<p>No match found for 	
+	
+	<% if !@album.nil? %>
+		<%= @album %>
 	<% end %>
+	<% if !@artist.nil? %>
+		by <%= @artist %> 
+	<% end %> </p>
+	
+<% else %>	
+
+	<table  style="width:100%">
+	
+	<% @albumsList.each do |album| %>
+		<tr>
+			<td class="album">
+				<p> Album <b class="albumDetails"> <%= album["albumTitle"] %> </b> <br>
+				by  <block class="albumDetails"><%= album["artist"] %></block> </p>
+				
+				<p>  <img class="albumCover" src="<%= album["albumCover"] =%>" style="width:150px;height:150px;" >   </p>
+				<!-- <img src="pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;"> -->
+				
+				<p> <block class="albumDetails"> Genre: </block><i><%= album["genre"] %></i> </p>
+			</td>	
+		</tr>		
+	<% end %>
+	
+	</table>
+	
+	
 <% end %>
+	
