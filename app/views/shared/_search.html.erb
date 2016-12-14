@@ -1,0 +1,13 @@
+<div class="searchFrame">
+	
+	<p>
+	<%= form_tag("/welcome/show", controller: "welcome", method: "get") do %>
+	  <%= label_tag(:artist, "Artist:") %>
+	  <%= text_field_tag(:artist,@artist)  %>
+	  <%= label_tag(:album, "Album:") %>
+	  <%= text_field_tag(:album,@album)  %>
+	  <%= submit_tag("Search", :class => "formButton") %>
+	<% end %>
+	</p>
+		
+</div>

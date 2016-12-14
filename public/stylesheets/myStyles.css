@@ -28,3 +28,168 @@ img.albumCover {
 	font-size: 120%;
 	
 }
+
+.navigationBar {
+	
+	background-color: black;
+	width: 100%;
+	border-radius: 30px;
+	color: white;
+	
+	padding-top: 0px;
+    padding-right: 30px;
+    padding-bottom: 0x;
+    padding-left: 30px;
+}
+
+
+td.signup {
+    
+	text-align: center;
+	
+	display: block;
+    margin: auto;
+    width: 40%;
+	
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 15px;
+	
+	
+	padding-top: 0px;
+    padding-right: 30px;
+    padding-bottom: 0x;
+    padding-left: 30px;
+}
+
+.alert { 
+	color: red;
+}
+
+table.signup {
+    width: 100%;
+}
+
+.formButton {
+	color: white;
+	background-color: black;
+	border-width: 1px;
+	border-radius: 15px;
+	
+	padding-top: 5px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+}
+
+
+
+.welcome-message  { 
+	color: purple;
+}
+
+.searchFrame {
+	width: 100%;
+	text-align: center;
+}
+
+div.divTable {
+	display: table;
+	box-sizing: border-box;
+}
+
+div.divRow {
+	display:table-row;
+	
+
+}
+
+div.divCell {
+	display:table-column;
+	float:left; 
+   
+}
+
+.navigationOptions {
+	float: right !important;
+	
+	
+	text-align: right;
+	padding-top: 21px;
+	
+	
+}
+
+a
+{
+	text-decoration: none;
+}
+
+.option
+{
+	color: white;
+	font-weight: bold;
+	padding: 0px 20px;
+}
+
+.newList {
+	
+	float: right;	
+}
+
+
+# -------- drop down --------#
+.dropbtn {
+    background-color: black;
+    color: white;
+    #padding: 16px;
+    #font-size: 16px;
+    border: 1px;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+	background-color: black;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    #min-width: 160px;
+	width: 100%;
+    #box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	
+	border-width: 1px;
+	border-radius: 15px;
+}
+
+.dropdown-content a {
+    color: white;
+	background-color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+	
+	border-width: 1px;
+	border-radius: 20px;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1;
+	color: black;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+
+}
+
+.dropdown:hover .dropbtn {
+    background-color: black;
+	color: white;
+	
+}
+# -------- drop down --------#

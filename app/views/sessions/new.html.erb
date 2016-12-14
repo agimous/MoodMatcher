@@ -1,0 +1,32 @@
+<%= stylesheet_link_tag "myStyles.css" %>
+
+<table class="signup">
+<tr>
+<td class="signup">
+<div>
+ 
+	<p class="albumDetails">
+		Login
+	</p>
+	<div class="alert">
+	  <% if flash[:danger] %>
+		<%= flash[:danger] =%>
+	  <% end %>
+	</div>  
+	<%= form_for(:session, url: login_path) do |f| %>
+
+				<p><%= f.label :email %><br>
+				<%= f.email_field :email %></p>
+			
+				<p><%= f.label :password %><br>
+				<%= f.password_field :password %></p>
+			
+			
+				<p><%= f.submit "Login" , class: "formButton" %></p>
+			 
+    <% end %>
+    <p>New user? <%= link_to "Sign up", signup_path %> and match your mood to your favourite music.</p>
+</div>
+</td>
+</tr>
+</table>

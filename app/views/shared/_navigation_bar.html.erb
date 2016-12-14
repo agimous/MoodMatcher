@@ -1,0 +1,26 @@
+<div class="divTable navigationBar">
+	<div class="divRow">
+		<div class="divCell">
+			<h2>MoodMatcher</h2>
+		</div>	
+		<div class="divCell navigationOptions">
+			<%= link_to "Home", root_path , class: 'option' %>
+			<%= link_to "About", root_path , class: 'option' %>
+			
+			<% if logged_in? %>
+					
+				<div class="dropdown">
+					<div class="dropbtn option"><%= current_user.name =%></div>
+					<div class="dropdown-content">
+						<%= link_to "Profile", current_user  %>
+						<%= link_to "Logout", logout_path, method: "delete"  %>
+						
+					</div>
+				</div>
+	
+			<% else %>
+				<%= link_to "Login", login_path , class: 'option' %>
+			<% end %>	
+		</div>	
+	</div>
+</div>
