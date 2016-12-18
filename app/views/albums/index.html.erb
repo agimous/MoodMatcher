@@ -1,0 +1,86 @@
+<%= stylesheet_link_tag "myStyles.css" %>
+
+<!-- <p> request : <%= @uri =%> </p> -->
+
+
+	
+<% if @albumsList.empty? then %>
+
+	<p>No match found for 	
+	
+	<% if !@album.nil? %>
+		album: <%= @album %>,
+	<% end %>
+	<% if !@artist.nil? %>
+		artist: <%= @artist %> 
+	<% end %> </p>
+	
+<% else %>	
+
+	<!-- <table  style="width:100%"> -->
+	<div class="divTable entries">
+	
+	<% @usher = 1 %>
+	<% @albumsList.each do |album| %>
+	
+		<!-- Create row every three albums -->
+		<% if @usher%3 == 1 then %>
+			<div class="divRow">
+		<% end %>	
+		
+		
+		<% @usher+=1 %>
+		
+		
+				<div class="divCell album">
+					<p> Album <b class="albumDetails"> <%= album["name"] %> </b> <br>
+					by  <block class="albumDetails"><%= album["artist"] %></block> </p>
+					
+					<img class="albumCover" src="<%= album["cover"] =%>" style="width:150px;height:150px;" ><br>
+					<!-- <img src="pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;"> -->
+					
+					<block class="albumDetails"> Genre: </block><i><%= album["genre"] %></i> <br><br>
+							
+					<% if logged_in? then %>
+						<% if current_user.lists.any? then %>
+							<div class="selectList">
+								Add to List: 
+								
+								<% form_for :albums, :url=>{:controller=> 'albums',:action=> 'create'} do |f| %>
+									
+									<% @user = current_user %>
+									<!-- collection_select(method, collection, value_method, text_method, options = {}, html_options = {}) -->
+									<!-- f.collection_select :country_id, Country.all, :id, :name -->
+									<%= f.collection_select  nil , @user.lists.all, :id ,:name  =%>
+									
+									<select>
+										<% current_user.lists.each do |list| %>
+											<option value=<%= list.name =%>><%= list.name =%></option>
+											
+										<% end %>							
+									</select>
+									
+									
+									<%= f.submit "Add" , class: "formButton" %>
+								<% end %>
+								
+								
+									
+							</div>	
+						<% end %>	
+					<% end %>
+					
+				</div>	
+				
+		<!-- Close row -->		
+		<% if @usher%3 == 1 then %>
+			</div>
+		<% end %>		
+			
+	<% end %>
+	
+	</div>
+	
+	
+<% end %>
+	

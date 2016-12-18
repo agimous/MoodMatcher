@@ -1,40 +1,75 @@
 <%= stylesheet_link_tag "myStyles.css" %>
 
-<!-- <p> request : <%= @uri =%> </p> -->
 
 
-	
-<% if @albumsList.empty? then %>
+<!-- Error checking -->
+<% if @connection then %>
+	<% if @albumsList.empty? then %>
 
-	<p>No match found for 	
-	
-	<% if !@album.nil? %>
-		<%= @album %>
-	<% end %>
-	<% if !@artist.nil? %>
-		by <%= @artist %> 
-	<% end %> </p>
-	
-<% else %>	
+		<p>No match found for 	
+		
+		<% if !@album.nil? %>
+			album: <%= @album %>,
+		<% end %>
+		<% if !@artist.nil? %>
+			artist: <%= @artist %> 
+		<% end %> </p>
+		
+	<% else %>	
 
-	<table  style="width:100%">
-	
-	<% @albumsList.each do |album| %>
-		<tr>
-			<td class="album">
-				<p> Album <b class="albumDetails"> <%= album["albumTitle"] %> </b> <br>
-				by  <block class="albumDetails"><%= album["artist"] %></block> </p>
+		<!-- <table  style="width:100%"> -->
+		<div class="divTable entries">
+		
+		<% @usher = 1 %>
+		<% @albumsList.each do |album| %>
+		
+			<!-- Create row every three albums -->
+			<% if @usher%3 == 1 then %>
+				<div class="divRow">
+			<% end %>	
+			
+			
+			<% @usher+=1 %>
+			
+			
+					<div class="divCell album">
+						<p> Album <b class="albumDetails"> <%= album["name"] %> </b> <br>
+						by  <block class="albumDetails"><%= album["artist"] %></block> </p>
+						
+						<img class="albumCover" src="<%= album["cover"] =%>" style="width:150px;height:150px;" ><br>
+						<!-- <img src="pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;"> -->
+						
+						<block class="albumDetails"> Genre: </block><i><%= album["genre"] %></i> <br><br>
+								
+						<% if logged_in? then %>
+							<% if current_user.lists.any? then %>
+								<div class="selectList">
+									Add to List: 
+									<select>
+										<% current_user.lists.each do |list| %>
+											<option value=<%= list.name =%>> <%= list.name =%> </option>
+											
+										<% end %>							
+									</select>
+									
+										
+								</div>	
+							<% end %>	
+						<% end %>
+						
+					</div>	
+					
+			<!-- Close row -->		
+			<% if @usher%3 == 1 then %>
+				</div>
+			<% end %>		
 				
-				<p>  <img class="albumCover" src="<%= album["albumCover"] =%>" style="width:150px;height:150px;" >   </p>
-				<!-- <img src="pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;"> -->
-				
-				<p> <block class="albumDetails"> Genre: </block><i><%= album["genre"] %></i> </p>
-			</td>	
-		</tr>		
+		<% end %>
+		
+		</div>
+		
+		
 	<% end %>
-	
-	</table>
-	
-	
-<% end %>
-	
+<% else %>
+	<p>Connection with the MusicBrainz database appears to be down. Try again.</p>
+<% end %>	

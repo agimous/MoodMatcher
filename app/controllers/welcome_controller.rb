@@ -1,11 +1,15 @@
 class WelcomeController < ApplicationController
+
+MUSICBRAINZ = 'http://musicbrainz.org/ws/2/release-group/'
+MUSICBRAINZCOVERS = 'http://coverartarchive.org/release-group/'
+APPSIGNATURE = 'Mood Matcher/1.0 ( agism.job@gmail.com )'
+
   def index
   end
   
   def show
 	 
 	require 'net/http'
-	require 'nokogiri'
 	require 'json'
   
 	@artist = params[:artist]
@@ -13,32 +17,35 @@ class WelcomeController < ApplicationController
 	
 	logger.info "blah"
 			
-	@uri = URI('http://musicbrainz.org/ws/2/release-group/')
-	#@uri = URI('https://api.discogs.com/database/search')
+	@uri = URI(MUSICBRAINZ)
+
 	@queryParams = createSearchQuery(@artist, @album)
 	@params = { :query => @queryParams } 
 	@uri.query = URI.encode_www_form(@params)
 	
-	
-	
 	@requestURI = @uri.request_uri
 	@requestHost = @uri.host
 	
-	logger.info "Request to be done : " + @uri.to_s
-	logger.info "Request to be done - request : " + @requestURI
-	logger.info "Request to be done - host: " + @requestHost
 	
 	@req = Net::HTTP::Get.new(@uri.request_uri)
-	@req.add_field("User-Agent","Mood Matcher/1.0 ( agism.job@gmail.com )")
+	@req.add_field("User-Agent",APPSIGNATURE)
 	
 	@http = Net::HTTP.new(@uri.host)
-	@res = @http.request(@req)
-	@body =  Hash.from_xml(@res.body).to_json # convert xml to json
 	
-	@albumsList = parseJSONAlbums(@body)
-	logger.info "Album List : "+@albumsList.to_s
+	@connection = true
+	begin  
+		@res = @http.request(@req)
+	rescue  
+		@connection = false
+	end 
 	
-	#@xml.xpath("//title")
+	
+	if @connection then
+		@body =  Hash.from_xml(@res.body).to_json # convert xml to json
+		
+		@albumsList = parseJSONAlbums(@body)
+	end	
+	
 
   end
   
@@ -80,6 +87,7 @@ private
 		return @params
 	end
 
+	#Store the data that was fetched
 	def parseJSONAlbums(body)
 		
 		@parsed = JSON.parse(@body)
@@ -136,31 +144,17 @@ private
 				
 				
 				#album cover
-				@uri = URI("http://coverartarchive.org/release-group/"+@albumID+"/front")
+				@uri = URI(MUSICBRAINZCOVERS+@albumID+"/front")
 				@req = Net::HTTP::Get.new(@uri.request_uri)
 				@req.add_field("User-Agent","Mood Matcher/1.0 ( agism.job@gmail.com )")
 	
 				@http = Net::HTTP.new(@uri.host)
 				@res = @http.request(@req)
-				#needs check for request failure or success
 				@albumCover = @res.body[/http:.+\.jpg/]
-				#logger.info "Album Cover response: "+@albumCover
-				
-				#year
-				#http://musicbrainz.org/ws/2/freedb/?query=discid:6e108c07
-				#@uri = URI("http://musicbrainz.org/ws/2/freedb/?query=artist:"+@artistName+" AND "+"title:"+@albumTitle)
-				#@req = Net::HTTP::Get.new(@uri.request_uri)
-				#@req.add_field("User-Agent","Mood Matcher/1.0 ( agism.job@gmail.com )")
-	
-				#@http = Net::HTTP.new(@uri.host)
-				#@res = @http.request(@req)
-				#@body =  Hash.from_xml(@res.body).to_json 
-				#needs check for request failure or success
-				#@albumYear = body["freedb_disc_list"]["freedb_disc"]["year"]
-				#logger.info "Album year response: "+@albumYear
 				
 				
-				@albumEntry = { "albumID" => @albumID, "albumTitle" => @albumTitle, "artist" => @artistName, "albumCover" => @albumCover, "genre" => @genre }
+				
+				@albumEntry = { "albumID" => @albumID, "name" => @albumTitle, "artist" => @artistName, "cover" => @albumCover, "genre" => @genre }
 				logger.info "Album Entry : "+@albumEntry.to_s
 				
 				unless @albumTitle.nil? then

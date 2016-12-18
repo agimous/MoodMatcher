@@ -4,17 +4,37 @@ body {
     font-family: "Arial Black", Gadget, sans-serif;
 }
 
-td.album {
+.entries {
+	width: 100%;
+	
+}
+
+.album {
+    width: 33%;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 15px;
+	
+	box-sizing: border-box;
+	
+	padding-top: 2px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.list {
     width: 100%;
 	border-style: solid;
 	border-width: 1px;
 	border-radius: 15px;
 	
+	box-sizing: border-box;
 	
-	padding-top: 0px;
-    padding-right: 30px;
-    padding-bottom: 0x;
-    padding-left: 30px;
+	padding-top: 2px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
 }
 
 img.albumCover {
@@ -25,8 +45,17 @@ img.albumCover {
 
 .albumDetails {
 	
-	font-size: 120%;
+	font-size: 110%;
 	
+}
+
+.entryOptions {
+	float: right;
+	
+}
+
+.newListForm {
+	float: right!important;
 }
 
 .navigationBar {
@@ -71,15 +100,18 @@ table.signup {
 }
 
 .formButton {
+	font-size: 13px;
+	
 	color: white;
 	background-color: black;
 	border-width: 1px;
 	border-radius: 15px;
 	
-	padding-top: 5px;
-    padding-right: 20px;
-    padding-bottom: 5px;
-    padding-left: 20px;
+	padding-top: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+
 }
 
 
@@ -100,8 +132,6 @@ div.divTable {
 
 div.divRow {
 	display:table-row;
-	
-
 }
 
 div.divCell {
@@ -137,8 +167,17 @@ a
 	float: right;	
 }
 
+# -------- list drop down --------#
+.selectList {
 
-# -------- drop down --------#
+	text-align: right;
+	width: 100%;
+	
+}
+# -------- list drop down --------#
+
+
+# -------- user drop down --------#
 .dropbtn {
     background-color: black;
     color: white;
@@ -192,4 +231,4 @@ a
 	color: white;
 	
 }
-# -------- drop down --------#
+# -------- user drop down --------#

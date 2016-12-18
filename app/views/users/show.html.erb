@@ -11,25 +11,55 @@
 		
       </h1>
 	  <div class="welcome-message">
-	  <% if flash[:success] %>
-		<%= flash[:success] =%>
-	  <% end %>
+		  <% if flash[:success] %>
+			<%= flash[:success] =%>
+		  <% end %>
 	  </div>
 	  
 	 
-	  <div class="divTable">
+	  <div class="divTable entries">
 		<div class="divRow">
-			<div class="divCell">
-				
-					<%= form_tag({controller: "lists", action: "create"}, method: "post") do %>
-						<%= label_tag(:q, "New List Name") %>
-						<%= text_field_tag(:q) %>
-						<%= submit_tag("Create new List",:class => "formButton") %>
+			<div class="divCell newListForm">
+			
+					<%= form_for([@user, @user.lists.build]) do |f| %>
+					  
+						<%= f.label :name,  "New List Name" %>
+						<%= f.text_field :name %>
+					  
+						<%= f.submit "Create New List" , class: "formButton" %>
+					 
 					<% end %>
-				
+					<br>
 			<div>
 		</div>
+	  </div>	
+	  
+	  
+	  <div class="divTable entries">	
+		<% @user.lists.each do |list| %>
+			<div class="divRow">
+				<div class="divCell list">
+					
+					<div class="albumDetails">
+						<%= list.name =%>
+					</div>
+
+					
+					<%= link_to 'Delete List', [list.user, list],
+						method: :delete,
+						data: { confirm: 'Delete List?' } , class: "formButton entryOptions" %>
+					
+				</div>
+			</div>
+		<% end %>
+		
+		
 	  </div>
+	  
+	  <% @user.lists.each do |list| %>
+		
+		
+	  <% end %>
 	  
 	  
     </section>
