@@ -14,18 +14,14 @@ APPSIGNATURE = 'Mood Matcher/1.0 ( agism.job@gmail.com )'
   
 	@artist = params[:artist]
 	@album = params[:album]
-	
-	logger.info "blah"
 			
 	@uri = URI(MUSICBRAINZ)
 
 	@queryParams = createSearchQuery(@artist, @album)
+	redirect_to action: "index" and return if @queryParams.empty?
+	
 	@params = { :query => @queryParams } 
 	@uri.query = URI.encode_www_form(@params)
-	
-	@requestURI = @uri.request_uri
-	@requestHost = @uri.host
-	
 	
 	@req = Net::HTTP::Get.new(@uri.request_uri)
 	@req.add_field("User-Agent",APPSIGNATURE)
@@ -42,7 +38,6 @@ APPSIGNATURE = 'Mood Matcher/1.0 ( agism.job@gmail.com )'
 	
 	if @connection then
 		@body =  Hash.from_xml(@res.body).to_json # convert xml to json
-		
 		@albumsList = parseJSONAlbums(@body)
 	end	
 	
@@ -54,35 +49,25 @@ APPSIGNATURE = 'Mood Matcher/1.0 ( agism.job@gmail.com )'
 
 private
 
+	# Construct the search query that will be 
+	# attached to the http request to MusicBrainz DB.
 	def createSearchQuery(artist, album)
 
-		if @artist.nil?
-			@artist = String.new("")
-		end	
-		if @album.nil?	
-			@album = String.new("")
-		end
-		
+		@artist = String.new("") if @artist.nil?
+		@album = String.new("") if @album.nil?	
+			
 		@params = ""
 		
-		
-		
 		if !@album.empty? then
-			logger.info "Album field filled. Album : "+@album
 			@params += '"' + @album + '"'
 			if !@artist.empty? 
-				logger.info "Artist field filled. Artist : "+@album
 				@params += ' AND ' + 'artist:"' + @artist + '"'
 			end
 			@params += ' AND ' + 'type:"Album"'
 		elsif !@artist.empty? then
 			@params += 'artist:"' + @artist + '"'
 			@params += ' AND ' + 'type:"Album"'
-		else	
-			# go back to search
-			render 'index'
-		end	
-		
+		end
 		
 		return @params
 	end
@@ -115,7 +100,6 @@ private
 				#artist name
 				if release["artist_credit"]["name_credit"].kind_of?(Array) then 
 					@artistName = ""
-					logger.info "Artist array : "+release["artist_credit"]["name_credit"].to_s
 					release["artist_credit"]["name_credit"].each do |oneArtist|
 						@artistName += oneArtist["artist"]["name"] + ", "
 					end
